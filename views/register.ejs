@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/styles.css" rel="stylesheet">
+    <title>Registration</title>
+</head>
+
+
+<body>
+    <%- include("partials/header"); -%>
+
+
+
+        <div class="login-page">
+            <div class="form">
+                <form class="register-form" action="/register" method="POST">
+                <input type="text" placeholder="First name *" value="" name="firstname" />
+                <input type="text" placeholder="Last name"  value="" name="lastname" />
+                <input type="email" placeholder="Email Address" value="" name="email" />
+
+                <label for="Gender">Gender</label>
+                
+                <select name="gender" >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Others">Others</option>
+                   
+                </select>
+                <input type="number" placeholder="Mobile No" value="" minlength="10" maxlength="10" name="phone" />
+                <input type="number" placeholder="Age" value="" name="age" />
+                <input type="password" placeholder="Password *" value="" name="password" />
+                <input type="password" placeholder="Confirm Password *" value="" name="confirmpassword" />
+                <button>create</button>
+                <p class="message">Already registered? <a href="/login">Sign In</a></p>
+            </form>
+            </div>
+        </div>
+<%- include("partials/footer"); -%>
+</body>
+
+</html>
