@@ -122,6 +122,16 @@ app.post("/login", async (req,res)=>{
     }
 })
 
+app.get('/editprofile', (req, res) =>{
+  res.render("user")
+})
+
+app.get('/logout', (req, res, next) => {
+   delete req.session;
+  res.redirect('/');
+});
+
+
 app.listen(port, ()=>{
     console.log(`Server is live at port ${port}`);
 })
