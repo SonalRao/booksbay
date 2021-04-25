@@ -14,7 +14,7 @@ const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pelle
 const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
 const app = express();
-
+var firstname="";
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -25,20 +25,24 @@ let posts = [];
 app.get("/", function(req, res){
   res.render("home", {
     startingContent: homeStartingContent,
-    posts: posts
+    posts: posts,
+    firstname: firstname
     });
+});
+app.get("/index", function(req, res){
+  res.render("index", {firstname: firstname});
 });
 
 app.get("/login", function(req, res){
-  res.render("login", {aboutContent: aboutContent});
+  res.render("login");
 });
 
 app.get("/register", function(req, res){
-  res.render("register", {aboutContent: aboutContent});
+  res.render("register");
 });
 
 app.get("/about", function(req, res){
-  res.render("about", {aboutContent: aboutContent});
+  res.render("about");
 });
 
 // app.get("/contact", function(req, res){
@@ -48,6 +52,7 @@ app.get("/about", function(req, res){
 app.get("/compose", function(req, res){
   res.render("compose");
 });
+
 
 app.post("/compose", function(req, res){
   const post = {
@@ -77,6 +82,8 @@ app.get("/posts/:postName", function(req, res){
 
 });
 
+
+
 //create a new user in our database
 app.post("/register", async (req, res)=>{
     try {
@@ -95,7 +102,7 @@ app.post("/register", async (req, res)=>{
             })
 
             const registered = await registerUser.save();
-            res.status(201).render("index");
+            res.status(201).redirect("index");
         }else{
             res.send('Passwords are not matching')
         }
@@ -109,18 +116,22 @@ app.post("/login", async (req,res)=>{
     try {
         const email = req.body.email
         const password = req.body.password
-
+        firstname=req.body.firstname
+     
         const  useremail = await Register.findOne({email:email});
         if(useremail.password === password){
-            res.status(201).render("index")
+            res.status(201).redirect("index")
         }else{
             res.send('Invalid login details...')
         }
-
     } catch (error) {
         res.status(400).send("Invalid login details...")
     }
 })
+
+app.get("/check", function(req, res){
+  res.render("check", {name: firstname})
+});
 
 app.get('/editprofile', (req, res) =>{
   res.render("user")
